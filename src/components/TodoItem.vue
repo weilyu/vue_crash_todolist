@@ -9,12 +9,18 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "TodoItem",
   props: ["todo"],
   methods: {
     markComplete() {
-      this.todo.completed = !this.todo.completed;
+      axios
+        .put(`https://jsonplaceholder.typicode.com/todos/${this.todo.id}`, {
+          completed: !this.todo.completed
+        })
+        .then(res => (this.todo.completed = res.data.completed))
+        .catch(err => console.log(err));
     }
   }
 };
